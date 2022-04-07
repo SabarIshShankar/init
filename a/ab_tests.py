@@ -49,3 +49,12 @@ required_n = ceil(required_n)
 print(required_n)
 
 df[['user_id', 'timestamp']].nunique()
+
+session_counts  = df.user_id.value_counts()
+double_users = session_counts[session_counts>1].index
+double_users
+
+df['user_id'].isin(double_users).value_counts()
+
+df = df[~df['user_id'].isin(double_users)]
+df.shape
