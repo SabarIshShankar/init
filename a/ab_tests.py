@@ -58,3 +58,10 @@ df['user_id'].isin(double_users).value_counts()
 
 df = df[~df['user_id'].isin(double_users)]
 df.shape
+
+control_group =  df.query('group == "control"').sample(required_n)
+treatment_group = df.query('group == "treatment"').sample(required_n)
+
+control_group.head()
+
+treatment_group.head()
