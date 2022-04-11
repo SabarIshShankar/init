@@ -65,3 +65,20 @@ treatment_group = df.query('group == "treatment"').sample(required_n)
 control_group.head()
 
 treatment_group.head()
+
+ab_test = pd.concat([control_group, treatment_group], axis=0)
+ab_test.reset_index(inplace=True, drop=True)
+
+ab_test.head()
+
+ab_test.group.value_counts()
+
+conversion_rates = ab_test.groupby('group')['converted']
+std_p = lambda x: np.std(x, ddof = 1)
+#standard deviation of the proportaion
+se_p = lambda x: stats.sem(x, ddof = 1) #standard error of the proportion
+
+conversion_rates = conversion_rates.agg([np.mean, std_p, se_p])
+conversion_rates.columns = ['cnversion_rate', 'std_deviation', 'std_error']
+
+conversion_rates.style.format('{:.3f}')
